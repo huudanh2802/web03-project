@@ -1,18 +1,19 @@
 package com.web03backend.service.imp;
 
-import com.web03backend.domain.NoteEntity;
-import com.web03backend.domain.UserEntity;
-import com.web03backend.dto.note.UpdateNoteDTO;
-import com.web03backend.repositories.spec.INoteRepository;
-import com.web03backend.repositories.spec.IUserRepository;
-import com.web03backend.service.spec.INoteService;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import com.web03backend.domain.NoteEntity;
+import com.web03backend.domain.UserEntity;
+import com.web03backend.dto.note.UpdateNoteDTO;
+import com.web03backend.repositories.spec.INoteRepository;
+import com.web03backend.repositories.spec.IUserRepository;
+import com.web03backend.service.spec.INoteService;
 
 @Service
 public class NoteService implements INoteService {
@@ -58,5 +59,15 @@ public class NoteService implements INoteService {
             throw new RuntimeException("Note not found");
         }
         noteRepository.deleteById(noteId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllNotesByUserId(Long userId) {
+        Optional<UserEntity> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        noteRepository.deleteByUserId(userId);
     }
 }
