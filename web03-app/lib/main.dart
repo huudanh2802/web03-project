@@ -1,5 +1,11 @@
+import 'dart:io' as io;
+
 import 'package:application/ui/screen/note_page.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +19,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FlutterQuillLocalizations.delegate,
+      ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -29,14 +41,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int _counter = 0;
-
   void _incrementCounter() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const NotePage()),
     );
   }
+
+  final QuillController _controller = (){
+    return QuillController.basic(
+        config: QuillControllerConfig(
+      clipboardConfig: QuillClipboardConfig(
+        enableExternalRichPaste: true,
+        onImagePaste: (imageBytes) async {
+          if (kIsWeb) {
+            // Dart IO is unsupported on the web.
+            return null;
+          }
+          // Save the image somewhere and return the image URL that will be
+          // stored in the Quill Delta JSON (the document).
+          final newFileName =
+              'image-file-${DateTime.now().toIso8601String()}.png';
+          final newPath = path.join(
+            io.Directory.systemTemp.path,
+            newFileName,
+          );
+          final file = await io.File(
+            newPath,
+          ).writeAsBytes(imageBytes, flush: true);
+          return file.path;
+        },
+      ),
+    ));
+  }();
+  final FocusNode _editorFocusNode = FocusNode();
+  final ScrollController _editorScrollController = ScrollController();
+
+  @override
+void initState(){
+  
+}
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Push button to access homepage'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+          children: <Widget>[const Text('Push button to access homepage')],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -64,4 +102,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+  
 }
