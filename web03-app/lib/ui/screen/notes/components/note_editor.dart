@@ -9,10 +9,7 @@ class NoteEditor extends StatefulWidget {
 
 class _NoteEditorState extends State<NoteEditor> {
   final TextEditingController _controller = TextEditingController();
-  TextStyle _currentStyle = const TextStyle(
-    fontSize: 16.0,
-    color: Colors.black,
-  );
+  TextStyle _currentStyle = const TextStyle(fontSize: 16.0, color: Colors.red);
 
   void _applyStyle(TextStyle style) {
     setState(() {
