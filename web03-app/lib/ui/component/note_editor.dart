@@ -24,51 +24,11 @@ class _NoteEditorState extends State<NoteEditor> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Toolbar for formatting options
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.format_bold),
-                onPressed:
-                    () => _applyStyle(
-                      _currentStyle.copyWith(fontWeight: FontWeight.bold),
-                    ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.format_italic),
-                onPressed:
-                    () => _applyStyle(
-                      _currentStyle.copyWith(fontStyle: FontStyle.italic),
-                    ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.format_underline),
-                onPressed:
-                    () => _applyStyle(
-                      _currentStyle.copyWith(
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.color_lens),
-                onPressed:
-                    () =>
-                        _applyStyle(_currentStyle.copyWith(color: Colors.blue)),
-              ),
-            ],
-          ),
-        ),
         // Text editor
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+            padding: const EdgeInsets.all(28.0),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
             child: TextField(
               controller: _controller,
               maxLines: null,

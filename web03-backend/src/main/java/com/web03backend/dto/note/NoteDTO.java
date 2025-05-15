@@ -1,14 +1,14 @@
-package com.web03backend.dto.note;
+    package com.web03backend.dto.note;
 
-import lombok.Getter;
-import lombok.Setter;
+    import lombok.Getter;
+    import lombok.Setter;
 
-import java.time.LocalDateTime;
+    import java.time.LocalDateTime;
 
-@Getter
-@Setter
-public class NoteDTO {
-    private Long id;
-    private String note;
-    private LocalDateTime createdAt;
-}
+    @Getter
+    @Setter
+    public class NoteDTO {
+        private Long id;
+        private String note;
+        private LocalDateTime createdAt;
+    }
