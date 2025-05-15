@@ -7,39 +7,49 @@ import 'package:application/ui/screen/notes/components/note_edit_bar.dart';
 import 'package:application/ui/screen/notes/components/note_editor.dart';
 import 'package:application/ui/screen/notes/components/note_list.dart';
 import 'package:application/ui/screen/notes/components/note_search_bar.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 class NotePage extends StatelessWidget {
   const NotePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => NoteBloc(), child: NotePageBody());
+    return BlocProvider(
+      create: (context) => NoteBloc(),
+      child: const NotePageBody(),
+    );
   }
 }
 
 class NotePageBody extends StatefulWidget {
+  const NotePageBody({super.key});
+
   @override
   State<NotePageBody> createState() => _NotePageBody();
 }
 
 class _NotePageBody extends State<NotePageBody> {
   late NoteBloc _noteBloc;
+  late QuillController _quillController;
+
   @override
   void initState() {
-    _noteBloc = BlocProvider.of(context);
-    _noteBloc.add(LoadNotes());
     super.initState();
+    _noteBloc = BlocProvider.of(context);
+    _quillController = QuillController.basic();
+    _noteBloc.add(LoadNotes());
   }
 
   @override
   void dispose() {
+    _quillController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NoteAppBar(),
+      appBar: const NoteAppBar(),
       body: Row(
         children: <Widget>[
           Expanded(
@@ -64,10 +74,16 @@ class _NotePageBody extends State<NotePageBody> {
               child: Column(
                 children: [
                   //Note edtit bar
-                  Expanded(flex: 1, child: NoteEditBar()),
+                  Expanded(
+                    flex: 1,
+                    child: NoteEditBar(controller: _quillController),
+                  ),
                   const Divider(height: 1, color: Color(0xFFE0E0E0)),
                   //Note Editor
-                  Expanded(flex: 6, child: NoteEditor()),
+                  Expanded(
+                    flex: 6,
+                    child: NoteEditor(controller: _quillController),
+                  ),
                 ],
               ),
             ),
@@ -77,4 +93,3 @@ class _NotePageBody extends State<NotePageBody> {
     );
   }
 }
-

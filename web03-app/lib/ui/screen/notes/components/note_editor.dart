@@ -1,44 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:application/ui/screen/notes/bloc/note_bloc.dart';
+import 'package:application/ui/screen/notes/bloc/note_event.dart';
+import 'package:application/ui/screen/notes/bloc/note_state.dart';
 
 class NoteEditor extends StatefulWidget {
-  const NoteEditor({super.key});
+  final QuillController controller;
+
+  const NoteEditor({super.key, required this.controller});
 
   @override
   State<NoteEditor> createState() => _NoteEditorState();
 }
 
 class _NoteEditorState extends State<NoteEditor> {
-  final TextEditingController _controller = TextEditingController();
-  TextStyle _currentStyle = const TextStyle(fontSize: 16.0, color: Colors.red);
+  bool _isInitialized = false;
 
-  void _applyStyle(TextStyle style) {
-    setState(() {
-      _currentStyle = style;
-    });
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Don't dispose the controller here as it's managed by the parent
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Text editor
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(28.0),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
-            child: TextField(
-              controller: _controller,
-              maxLines: null,
-              expands: true,
-              style: _currentStyle,
-              decoration: const InputDecoration(
-                hintText: 'Start typing your note here...',
-                border: InputBorder.none,
+    return BlocConsumer<NoteBloc, NoteState>(
+      listener: (context, state) {
+        if (state is NotesLoaded &&
+            state.selectedNote != null &&
+            !_isInitialized) {
+          widget.controller.document = Document.fromJson([
+            {'insert': state.selectedNote!.note},
+          ]);
+          _isInitialized = true;
+        } else if (state is NotesLoaded && state.selectedNote == null) {
+          widget.controller.document = Document();
+          _isInitialized = false;
+        }
+      },
+      builder: (context, state) {
+        if (state is! NotesLoaded || state.selectedNote == null) {
+          return const Center(
+            child: Text(
+              'Select a note or create a new one',
+              style: TextStyle(color: Colors.grey),
+            ),
+          );
+        }
+
+        return Column(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                child: QuillEditor.basic(
+                  focusNode: FocusNode(),
+                  scrollController: ScrollController(),
+                  config: QuillEditorConfig(
+                    placeholder: 'Start typing your note here...',
+                    autoFocus: false,
+                    expands: false,
+                    padding: EdgeInsets.zero,
+                    scrollable: true,
+                    onTapUp: (details, p1) => true,
+                    onTapDown: (details, p1) => true,
+                    // onSelectionCompleted: (text, plain, html) {
+                    //   if (state.selectedNote != null) {
+                    //     context.read<NoteBloc>().add(
+                    //       UpdateNote(state.selectedNote!.copyWith(note: plain)),
+                    //     );
+                    //   }
+                    // },
+                  ),
+                  controller: widget.controller,
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
