@@ -1,7 +1,8 @@
-import 'package:application/ui/component/note_edit_bar.dart';
-import 'package:application/ui/component/note_editor.dart';
-import 'package:application/ui/component/note_list.dart';
-import 'package:application/ui/component/note_search_bar.dart';
+import 'package:application/ui/screen/notes/components/note_app_bar.dart';
+import 'package:application/ui/screen/notes/components/note_edit_bar.dart';
+import 'package:application/ui/screen/notes/components/note_editor.dart';
+import 'package:application/ui/screen/notes/components/note_list.dart';
+import 'package:application/ui/screen/notes/components/note_search_bar.dart';
 import 'package:flutter/material.dart';
 
 class NotePage extends StatelessWidget {
@@ -10,6 +11,7 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: NoteAppBar(),
       body: Row(
         children: <Widget>[
           Expanded(

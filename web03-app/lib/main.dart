@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 
-import 'package:application/ui/screen/note_page.dart';
+import 'package:application/ui/screen/notes/note_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

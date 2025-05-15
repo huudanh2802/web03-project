@@ -1,5 +1,5 @@
 import 'package:application/model/note.dart';
-import 'package:application/ui/component/note_preview.dart';
+import 'package:application/ui/screen/notes/components/note_preview.dart';
 import 'package:flutter/material.dart';
 
 class NoteList extends StatefulWidget {
