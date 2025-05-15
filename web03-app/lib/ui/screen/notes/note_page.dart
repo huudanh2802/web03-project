@@ -1,12 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:application/ui/screen/notes/bloc/note_bloc.dart';
+import 'package:application/ui/screen/notes/bloc/note_event.dart';
 import 'package:application/ui/screen/notes/components/note_app_bar.dart';
 import 'package:application/ui/screen/notes/components/note_edit_bar.dart';
 import 'package:application/ui/screen/notes/components/note_editor.dart';
 import 'package:application/ui/screen/notes/components/note_list.dart';
 import 'package:application/ui/screen/notes/components/note_search_bar.dart';
-import 'package:flutter/material.dart';
 
 class NotePage extends StatelessWidget {
   const NotePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(create: (context) => NoteBloc(), child: NotePageBody());
+  }
+}
+
+class NotePageBody extends StatefulWidget {
+  @override
+  State<NotePageBody> createState() => _NotePageBody();
+}
+
+class _NotePageBody extends State<NotePageBody> {
+  late NoteBloc _noteBloc;
+  @override
+  void initState() {
+    _noteBloc = BlocProvider.of(context);
+    _noteBloc.add(LoadNotes());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,3 +77,4 @@ class NotePage extends StatelessWidget {
     );
   }
 }
+
