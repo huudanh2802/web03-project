@@ -51,7 +51,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onUpdateNote(UpdateNote event, Emitter<NoteState> emit) async {
     try {
-      print(event.note.note);
       final updatedNotes =
           state.notes.map((note) {
             return note.id == event.note.id ? event.note : note;

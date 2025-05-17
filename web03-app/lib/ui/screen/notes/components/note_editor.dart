@@ -48,10 +48,11 @@ class _NoteEditorState extends State<NoteEditor> {
         widget.controller.addListener(() {
           final state = context.read<NoteBloc>().state;
           if (state is NotesLoaded && state.selectedNote != null) {
-            final plainText = widget.controller.document.toPlainText();
-            context.read<NoteBloc>().add(
-              UpdateNote(state.selectedNote!.copyWith(note: plainText)),
-            );
+            final plainText = widget.controller.document.toDelta();
+            print(plainText);
+            // context.read<NoteBloc>().add(
+            //   UpdateNote(state.selectedNote!.copyWith(note: plainText)),
+            // );
           }
         });
       },
