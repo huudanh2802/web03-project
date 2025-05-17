@@ -22,17 +22,8 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
-    widget.controller.document.changes.listen((event) {
-      final state = context.read<NoteBloc>().state;
-      if (state is NotesLoaded && state.selectedNote != null) {
-        final plainText = widget.controller.document.toPlainText();
-        context.read<NoteBloc>().add(
-          UpdateNote(state.selectedNote!.copyWith(note: plainText)),
-        );
-      }
-    });
   }
-  
+
   @override
   void dispose() {
     widget.controller.onReplaceText = null;
