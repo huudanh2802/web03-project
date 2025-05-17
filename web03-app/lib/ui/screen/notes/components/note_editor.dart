@@ -63,15 +63,7 @@ class _NoteEditorState extends State<NoteEditor> {
                 padding: const EdgeInsets.all(16.0),
                 child: QuillEditor.basic(
                   controller: widget.controller,
-                  config: QuillEditorConfig(
-                    placeholder: 'Start typing your note here...',
-                    autoFocus: false,
-                    expands: false,
-                    padding: EdgeInsets.zero,
-                    scrollable: true,
-                    onTapUp: (details, p1) => true,
-                    onTapDown: (details, p1) => true,
-                  ),
+                  config: new QuillEditorConfig(),
                 ),
               ),
             ),
