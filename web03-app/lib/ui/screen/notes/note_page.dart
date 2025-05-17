@@ -60,7 +60,10 @@ class _NotePageBody extends State<NotePageBody> {
               child: Column(
                 children: [
                   //Search bar
-                  Expanded(flex: 1, child: NoteSearchBar()),
+                  Expanded(
+                    flex: 1,
+                    child: NoteSearchBar(controller: _quillController),
+                  ),
                   //Note List
                   Expanded(flex: 6, child: NoteList()),
                 ],

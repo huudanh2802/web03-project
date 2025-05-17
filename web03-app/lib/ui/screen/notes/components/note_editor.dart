@@ -32,7 +32,7 @@ class _NoteEditorState extends State<NoteEditor> {
       }
     });
   }
-
+  
   @override
   void dispose() {
     widget.controller.onReplaceText = null;
