@@ -1,6 +1,6 @@
+import 'package:application/model/note.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:application/ui/screen/notes/model/note.dart';
 
 class NotePreview extends StatefulWidget {
   final Note note;
@@ -42,7 +42,7 @@ class _NotePreviewState extends State<NotePreview> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.note.plainText,
+                widget.note.note.toString(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),

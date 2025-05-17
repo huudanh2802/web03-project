@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import '../../../../model/note.dart';
 import 'note_event.dart';
 import 'note_state.dart';
@@ -29,7 +30,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     try {
       final note = Note(
         id: _notes.length + 1,
-        note: '',
+        note: Delta(),
         createdAt: DateTime.now(),
       );
       _notes = [..._notes, note];
