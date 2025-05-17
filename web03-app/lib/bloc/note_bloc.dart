@@ -52,17 +52,18 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onUpdateNote(UpdateNote event, Emitter<NoteState> emit) async {
     try {
-      final updatedNotes =
-          state.notes.map((note) {
-            return note.id == event.note.id ? event.note : note;
-          }).toList();
+      print(event.note.note);
+      // final updatedNotes =
+      //     state.notes.map((note) {
+      //       return note.id == event.note.id ? event.note : note;
+      //     }).toList();
 
-      final updatedSelectedNote =
-          state.selectedNote?.id == event.note.id
-              ? event.note
-              : state.selectedNote;
+      // final updatedSelectedNote =
+      //     state.selectedNote?.id == event.note.id
+      //         ? event.note
+      //         : state.selectedNote;
 
-      emit(NotesLoaded(notes: updatedNotes, selectedNote: updatedSelectedNote));
+      // emit(NotesLoaded(notes: updatedNotes, selectedNote: updatedSelectedNote));
     } catch (e) {
       emit(
         NoteError(

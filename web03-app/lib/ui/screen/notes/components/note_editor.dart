@@ -52,9 +52,9 @@ class _NoteEditorState extends State<NoteEditor> {
           final state = context.read<NoteBloc>().state;
           if (state is NotesLoaded && state.selectedNote != null) {
             final updatedData = widget.controller.document.toDelta();
-            context.read<NoteBloc>().add(
-              UpdateNote(state.selectedNote!.copyWith(note: updatedData)),
-            );
+            // context.read<NoteBloc>().add(
+            //   UpdateNote(state.selectedNote!.copyWith(note: updatedData)),
+            // );
           }
         });
       },
