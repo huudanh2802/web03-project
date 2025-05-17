@@ -22,15 +22,6 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(() {
-      final state = context.read<NoteBloc>().state;
-      if (state is NotesLoaded && state.selectedNote != null) {
-        final plainText = widget.controller.document.toPlainText();
-        context.read<NoteBloc>().add(
-          UpdateNote(state.selectedNote!.copyWith(note: plainText)),
-        );
-      }
-    });
   }
 
   @override
@@ -54,6 +45,15 @@ class _NoteEditorState extends State<NoteEditor> {
           widget.controller.document = Document();
           _isInitialized = false;
         }
+        widget.controller.addListener(() {
+          final state = context.read<NoteBloc>().state;
+          if (state is NotesLoaded && state.selectedNote != null) {
+            final plainText = widget.controller.document.toPlainText();
+            context.read<NoteBloc>().add(
+              UpdateNote(state.selectedNote!.copyWith(note: plainText)),
+            );
+          }
+        });
       },
       builder: (context, state) {
         if (state is! NotesLoaded || state.selectedNote == null) {
