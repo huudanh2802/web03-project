@@ -6,6 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:application/ui/screen/notes/bloc/note_bloc.dart';
 import 'package:application/ui/screen/notes/bloc/note_event.dart';
 import 'package:application/ui/screen/notes/bloc/note_state.dart';
+import 'package:flutter_quill/quill_delta.dart';
 
 class NoteEditor extends StatefulWidget {
   final QuillController controller;
@@ -38,7 +39,9 @@ class _NoteEditorState extends State<NoteEditor> {
             state.selectedNote != null &&
             !_isInitialized) {
           widget.controller.document = Document.fromDelta(
-            state.selectedNote!.note,
+            Delta.fromJson(
+              json.decode('[{"insert": "${state.selectedNote!.note}\\n"}]'),
+            ),
           );
           _isInitialized = true;
         } else if (state is NotesLoaded && state.selectedNote == null) {
