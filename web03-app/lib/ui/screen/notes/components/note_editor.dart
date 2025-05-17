@@ -22,6 +22,9 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
+    widget.controller.document.changes.listen((event) {
+      print(event); //Delta
+    });
   }
 
   @override
