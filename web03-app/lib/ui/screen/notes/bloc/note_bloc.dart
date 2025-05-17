@@ -18,8 +18,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
 
   void _onLoadNotes(LoadNotes event, Emitter<NoteState> emit) async {
     try {
-      emit(NotesLoading());
-      // TODO: Implement actual loading from storage/database
+      // emit(NotesLoading());
       emit(NotesLoaded(notes: _notes, selectedNote: _selectedNote));
     } catch (e) {
       emit(NoteError(e.toString()));
@@ -50,8 +49,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       if (_selectedNote?.id == event.note.id) {
         _selectedNote = event.note;
       }
-      print(_selectedNote?.note);
-      // emit(NotesLoaded(notes: _notes, selectedNote: _selectedNote));
+      emit(NotesLoaded(notes: _notes, selectedNote: _selectedNote));
     } catch (e) {
       emit(NoteError(e.toString()));
     }
