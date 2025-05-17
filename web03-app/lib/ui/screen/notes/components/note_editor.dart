@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -23,10 +22,20 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
+    widget.controller.addListener(() {
+      final state = context.read<NoteBloc>().state;
+      if (state is NotesLoaded && state.selectedNote != null) {
+        final plainText = widget.controller.document.toPlainText();
+        context.read<NoteBloc>().add(
+          UpdateNote(state.selectedNote!.copyWith(note: plainText)),
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
+    widget.controller.removeListener(() {});
     super.dispose();
   }
 
@@ -45,7 +54,6 @@ class _NoteEditorState extends State<NoteEditor> {
           widget.controller.document = Document();
           _isInitialized = false;
         }
-        widget.controller.document.changes.listen((event) => print(event));
       },
       builder: (context, state) {
         if (state is! NotesLoaded || state.selectedNote == null) {
