@@ -22,9 +22,7 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
-    widget.controller.onReplaceText((event) {
-      print(event); //Delta
-    });
+    widget.controller.changes.listen((event) => print(event));
   }
 
   @override
