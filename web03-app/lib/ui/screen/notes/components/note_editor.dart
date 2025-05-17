@@ -60,8 +60,7 @@ class _NoteEditorState extends State<NoteEditor> {
               child: Container(
                 padding: const EdgeInsets.all(16.0),
                 child: QuillEditor.basic(
-                  focusNode: FocusNode(),
-                  scrollController: ScrollController(),
+                  controller: widget.controller,
                   config: QuillEditorConfig(
                     placeholder: 'Start typing your note here...',
                     autoFocus: false,
@@ -70,15 +69,7 @@ class _NoteEditorState extends State<NoteEditor> {
                     scrollable: true,
                     onTapUp: (details, p1) => true,
                     onTapDown: (details, p1) => true,
-                    // onSelectionCompleted: (text, plain, html) {
-                    //   if (state.selectedNote != null) {
-                    //     context.read<NoteBloc>().add(
-                    //       UpdateNote(state.selectedNote!.copyWith(note: plain)),
-                    //     );
-                    //   }
-                    // },
                   ),
-                  controller: widget.controller,
                 ),
               ),
             ),

@@ -1,4 +1,3 @@
-import 'package:application/model/note.dart';
 import 'package:application/ui/screen/notes/bloc/note_bloc.dart';
 import 'package:application/ui/screen/notes/bloc/note_event.dart';
 import 'package:application/ui/screen/notes/bloc/note_state.dart';
