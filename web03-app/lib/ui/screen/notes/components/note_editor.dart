@@ -22,8 +22,6 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
-    print(widget.controller.document.toPlainText());
-    widget.controller.changes.listen((event) => print(event));
   }
 
   @override
@@ -46,6 +44,7 @@ class _NoteEditorState extends State<NoteEditor> {
           widget.controller.document = Document();
           _isInitialized = false;
         }
+        widget.controller.changes.listen((event) => print(event));
       },
       builder: (context, state) {
         if (state is! NotesLoaded || state.selectedNote == null) {
