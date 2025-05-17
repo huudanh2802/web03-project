@@ -37,9 +37,6 @@ class _NotePageBody extends State<NotePageBody> {
     super.initState();
     _noteBloc = BlocProvider.of(context);
     _quillController = QuillController.basic();
-    _quillController.document.changes.listen((event) {
-      print(event); //Delta
-    });
     _noteBloc.add(LoadNotes());
   }
 
