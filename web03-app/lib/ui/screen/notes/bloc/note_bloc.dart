@@ -47,11 +47,10 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
             return note.id == event.note.id ? event.note : note;
           }).toList();
 
-      print(_notes);
-      // if (_selectedNote?.id == event.note.id) {
-      //   _selectedNote = event.note;
-      // }
-
+      if (_selectedNote?.id == event.note.id) {
+        _selectedNote = event.note;
+      }
+      print(_selectedNote?.note);
       // emit(NotesLoaded(notes: _notes, selectedNote: _selectedNote));
     } catch (e) {
       emit(NoteError(e.toString()));
