@@ -22,11 +22,20 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
+    widget.controller.document.changes.listen((event) {
+      final state = context.read<NoteBloc>().state;
+      if (state is NotesLoaded && state.selectedNote != null) {
+        final plainText = widget.controller.document.toPlainText();
+        context.read<NoteBloc>().add(
+          UpdateNote(state.selectedNote!.copyWith(note: plainText)),
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
-    // Don't dispose the controller here as it's managed by the parent
+    widget.controller.onReplaceText = null;
     super.dispose();
   }
 
@@ -55,6 +64,7 @@ class _NoteEditorState extends State<NoteEditor> {
             ),
           );
         }
+
         return Column(
           children: [
             Expanded(
@@ -62,7 +72,7 @@ class _NoteEditorState extends State<NoteEditor> {
                 padding: const EdgeInsets.all(16.0),
                 child: QuillEditor.basic(
                   controller: widget.controller,
-                  config: new QuillEditorConfig(),
+                  config: const QuillEditorConfig(),
                 ),
               ),
             ),
