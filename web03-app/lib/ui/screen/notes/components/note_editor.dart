@@ -22,6 +22,7 @@ class _NoteEditorState extends State<NoteEditor> {
   @override
   void initState() {
     super.initState();
+    print(widget.controller.document.toPlainText());
     widget.controller.changes.listen((event) => print(event));
   }
 
