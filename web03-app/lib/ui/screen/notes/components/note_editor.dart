@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _NoteEditorState extends State<NoteEditor> {
           widget.controller.document = Document();
           _isInitialized = false;
         }
-        widget.controller.changes.listen((event) => print(event));
+        widget.controller.document.changes.listen((event) => print(event));
       },
       builder: (context, state) {
         if (state is! NotesLoaded || state.selectedNote == null) {
