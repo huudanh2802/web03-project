@@ -45,17 +45,16 @@ class _NoteEditorState extends State<NoteEditor> {
             ),
           );
           _isInitialized = true;
+          widget.controller.addListener(() {
+            final updatedData = widget.controller.document.toDelta();
+            _noteBloc.add(
+              UpdateNote(state.selectedNote!.copyWith(note: updatedData)),
+            );
+          });
         } else if (state is NotesLoaded && state.selectedNote == null) {
           widget.controller.document = Document();
           _isInitialized = false;
         }
-        widget.controller.addListener(() {
-          final state = context.read<NoteBloc>().state;
-          final updatedData = widget.controller.document.toDelta();
-          _noteBloc.add(
-            UpdateNote(state.selectedNote!.copyWith(note: updatedData)),
-          );
-        });
       },
       builder: (context, state) {
         if (state is! NotesLoaded || state.selectedNote == null) {
