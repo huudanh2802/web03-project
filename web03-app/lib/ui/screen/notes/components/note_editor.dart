@@ -19,10 +19,11 @@ class NoteEditor extends StatefulWidget {
 
 class _NoteEditorState extends State<NoteEditor> {
   bool _isInitialized = false;
-
+  late NoteBloc _noteBloc;
   @override
   void initState() {
     super.initState();
+    _noteBloc = BlocProvider.of(context);
   }
 
   @override
@@ -50,12 +51,10 @@ class _NoteEditorState extends State<NoteEditor> {
         }
         widget.controller.addListener(() {
           final state = context.read<NoteBloc>().state;
-          if (state is NotesLoaded && state.selectedNote != null) {
-            final updatedData = widget.controller.document.toDelta();
-            // context.read<NoteBloc>().add(
-            //   UpdateNote(state.selectedNote!.copyWith(note: updatedData)),
-            // );
-          }
+          final updatedData = widget.controller.document.toDelta();
+          _noteBloc.add(
+            UpdateNote(state.selectedNote!.copyWith(note: updatedData)),
+          );
         });
       },
       builder: (context, state) {
