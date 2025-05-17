@@ -40,8 +40,10 @@ class _NoteEditorState extends State<NoteEditor> {
           widget.controller.document = Document.fromJson(
             json.decode('[{"insert": "${state.selectedNote!.note}\\n"}]'),
           );
+          print("Check2");
           _isInitialized = true;
         } else if (state is NotesLoaded && state.selectedNote == null) {
+          print("Check");
           widget.controller.document = Document();
           _isInitialized = false;
         }
