@@ -23,8 +23,7 @@ class NoteList extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: NotePreview(
-                  note: note.note,
-                  date: note.createdAt,
+                  note: note,
                   isSelected: note.id == state.selectedNote?.id,
                   onTap: () {
                     context.read<NoteBloc>().add(SelectNote(note));

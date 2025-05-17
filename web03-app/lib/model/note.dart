@@ -1,6 +1,8 @@
+import 'package:flutter_quill/flutter_quill.dart';
+
 class Note {
   final int? id;
-  final String note;
+  final Delta note;
   final DateTime createdAt;
 
   Note({this.id, required this.note, required this.createdAt});
@@ -9,22 +11,31 @@ class Note {
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(
       id: json['id'] as int?,
-      note: json['note'] as String,
+      note: Delta.fromJson(json['note'] as List<dynamic>),
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
   }
 
   // Convert to JSON
   Map<String, dynamic> toJson() {
-    return {'id': id, 'note': note, 'createdAt': createdAt.toIso8601String()};
+    return {
+      'id': id,
+      'note': note.toJson(),
+      'createdAt': createdAt.toIso8601String(),
+    };
   }
 
   // Create a copy of the note with optional new values
-  Note copyWith({int? id, String? note, DateTime? createdAt}) {
+  Note copyWith({int? id, Delta? note, DateTime? createdAt}) {
     return Note(
       id: id ?? this.id,
       note: note ?? this.note,
       createdAt: createdAt ?? this.createdAt,
     );
+  }
+
+  // Get plain text representation of the note
+  String get plainText {
+    return note.toPlainText();
   }
 }

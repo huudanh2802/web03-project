@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:application/ui/screen/notes/model/note.dart';
 
 class NotePreview extends StatefulWidget {
-  final String note;
-  final DateTime date;
+  final Note note;
   final VoidCallback? onTap;
   final bool isSelected;
 
   const NotePreview({
     super.key,
     required this.note,
-    required this.date,
     this.onTap,
     this.isSelected = false,
   });
@@ -43,14 +42,14 @@ class _NotePreviewState extends State<NotePreview> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.note,
+                widget.note.plainText,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 14.0, color: Colors.black87),
               ),
               const SizedBox(height: 8.0),
               Text(
-                DateFormat('MMM d, yyyy').format(widget.date),
+                DateFormat('MMM d, yyyy').format(widget.note.createdAt),
                 style: TextStyle(fontSize: 12.0, color: Colors.grey[600]),
               ),
             ],
