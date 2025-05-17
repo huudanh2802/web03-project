@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -36,7 +38,7 @@ class _NoteEditorState extends State<NoteEditor> {
             state.selectedNote != null &&
             !_isInitialized) {
           widget.controller.document = Document.fromJson(
-            json.decode(state.selectedNote!.note),
+            json.decode('[{"insert": "${state.selectedNote!.note}\\n"}]'),
           );
           _isInitialized = true;
         } else if (state is NotesLoaded && state.selectedNote == null) {
