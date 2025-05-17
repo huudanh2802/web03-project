@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:application/ui/screen/notes/bloc/note_bloc.dart';
+import 'package:application/ui/screen/notes/bloc/note_state.dart';
 
 class NoteSearchBar extends StatelessWidget {
   final QuillController controller;
@@ -25,19 +28,40 @@ class NoteSearchBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8.0),
-          IconButton(
-            icon: const Icon(Icons.print, color: Colors.grey),
-            onPressed: () {
-              final text = controller.document.toPlainText();
-              debugPrint('Current editor text: $text');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Current text: $text'),
-                  duration: const Duration(seconds: 3),
-                ),
+          BlocBuilder<NoteBloc, NoteState>(
+            builder: (context, state) {
+              return IconButton(
+                icon: const Icon(Icons.print, color: Colors.grey),
+                onPressed: () {
+                  if (state is NotesLoaded) {
+                    final notesText = state.notes
+                        .map((note) {
+                          return 'Note ID: ${note.id}\n'
+                              'Created: ${note.createdAt}\n'
+                              'Content: ${note.note}\n'
+                              '-------------------\n';
+                        })
+                        .join('\n');
+
+                    debugPrint('All notes:\n$notesText');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: SingleChildScrollView(child: Text(notesText)),
+                        duration: const Duration(seconds: 5),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('No notes available'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                tooltip: 'Print all notes',
               );
             },
-            tooltip: 'Print current text',
           ),
         ],
       ),
